@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little World Made Just For You ❤️</title>
+    <style>
+        :root {
+            --bg-deep: #0a0718;
+            --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            --rose-gold: #e0a899;
+            --rose-gold-light: #f3d1cb;
+            --accent-pink: #ff758c;
+            --accent-purple: #ff7eb3;
+            --text-light: #fdf8f5;
+            --text-muted: #d8cce5;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: var(--bg-gradient);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Starry Background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+            opacity: var(--opacity);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { transform: scale(0.8); opacity: 0.3; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        /* Floating Light Orbs & Hearts Background */
+        .ambient-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-particle {
+            position: absolute;
+            bottom: -50px;
+            background: radial-gradient(circle, rgba(255,117,140,0.3) 0%, rgba(48,43,99,0) 70%);
+            border-radius: 50%;
+            animation: floatUp var(--speed) infinite linear;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-105vh) translateX(50px) scale(1.2); opacity: 0; }
+        }
+
+        /* Container Layouts */
+        .screen-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 700px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .hidden {
+            display: none !important;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        /* Screen 1: Envelope Opening */
+        #envelope-screen {
+            animation: fadeIn 1.2s ease forwards;
+        }
+
+        .envelope-wrapper {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            padding: 3rem 2.5rem;
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 450px;
+            width: 100%;
+            animation: floatEnvelope 4s ease-in-out infinite;
+        }
+
+        @keyframes floatEnvelope {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .envelope-icon {
+            font-size: 4rem;
+            background: linear-gradient(135deg, var(--rose-gold), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulseHeart 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .envelope-text {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* Buttons Style */
+        .romantic-btn {
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            border: none;
+            padding: 0.9rem 2.2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 117, 140, 0.4);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .romantic-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(255, 117, 140, 0.6);
+            background: linear-gradient(135deg, #ff6b81 0%, #ff70a6 100%);
+        }
+
+        .romantic-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Screen 2 & Main Content Styles */
+        #main-celebration {
+            width: 100%;
+            max-width: 800px;
+            padding: 2rem 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        #main-celebration.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .greeting-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .greeting-header h1 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--rose-gold-light), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 5px 15px rgba(255, 117, 140, 0.2);
+        }
+
+        .greeting-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--rose-gold), var(--accent-pink));
+        }
+
+        .love-letter h2 {
+            font-size: 1.5rem;
+            color: var(--rose-gold-light);
+            margin-bottom: 1.2rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .love-letter p {
+            color: var(--text-light);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin-bottom: 1.2rem;
+            font-weight: 300;
+        }
+
+        .love-letter p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Interactive Sections Grid */
+        .interactive-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media(min-width: 600px) {
+            .interactive-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .interactive-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .interactive-box:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 117, 140, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .interactive-box h3 {
+            font-size: 1.1rem;
+            color: var(--rose-gold-light);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        /* Dynamic Message Display Area */
+        .dynamic-output {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: var(--accent-purple);
+            font-style: italic;
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 0.5rem;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(5px);
+        }
+
+        .dynamic-output.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Interactive Heart Widget */
+        .interactive-heart-container {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+
+        .big-heart {
+            font-size: 3.5rem;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            user-select: none;
+        }
+
+        .big-heart:hover {
+            transform: scale(1.15);
+        }
+
+        .big-heart:active {
+            transform: scale(0.9);
+        }
+
+        /* Final Screen / Closing Section */
+        .final-screen {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .final-screen h2 {
+            font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+            color: var(--text-light);
+            line-height: 1.6;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        /* Modal Overlay for Final Surprise */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 7, 24, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: linear-gradient(135deg, rgba(30, 25, 60, 0.95), rgba(15, 12, 41, 0.95));
+            border: 1px solid rgba(255, 117, 140, 0.3);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-card h3 {
+            color: var(--rose-gold-light);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .close-modal {
+            background: transparent;
+            border: 1px solid var(--rose-gold);
+            color: var(--rose-gold-light);
+            padding: 0.6rem 1.8rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: var(--rose-gold);
+            color: var(--bg-deep);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Twinkling Starry Background -->
+    <div class="stars" id="stars-container"></div>
+
+    <!-- Floating Ambient Orbs Background -->
+    <div class="ambient-particles" id="particles-container"></div>
+
+    <!-- SCREEN 1: Opening Experience -->
+    <div class="screen-container" id="envelope-screen">
+        <div class="envelope-wrapper">
+            <div class="envelope-icon">💌</div>
+            <div class="envelope-text">Someone has a little surprise for you...</div>
+            <button class="romantic-btn" id="open-btn">
+                Open Your Surprise ❤️
+            </button>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: Main Birthday Celebration Experience -->
+    <div class="screen-container hidden" id="main-celebration">
+        
+        <!-- Header -->
+        <div class="greeting-header">
+            <h1>Happy Birthday, My Love! ❤️</h1>
+            <p>A little world crafted with all my heart, just for you.</p>
+        </div>
+
+        <!-- The Love Letter -->
+        <div class="glass-card love-letter">
+            <h2>✨ A Letter Straight From My Heart</h2>
+            <p>My dearest,</p>
+            <p>Today is a celebration of the most wonderful person who has ever walked into my life. Words often feel too small to capture how deeply special you are to me, but I want you to know that your presence is my greatest blessing.</p>
+            <p>I am endlessly grateful for your kindness, your warmth, and the effortless way your smile turns my ordinary days into something extraordinary. Whenever things get heavy, your laughter is the softest light that brings me home.</p>
+            <p>On your birthday, and on every single day after, I wish you oceans of happiness, boundless peace, and all the success in the world. You deserve every beautiful thing this universe has to offer—because you bring so much beauty into it yourself.</p>
+            <p style="text-align: right; margin-top: 1.5rem; font-style: italic; color: var(--rose-gold-light);">Forever and always yours, ❤️</p>
+        </div>
+
+        <!-- Interactive Surprise Sections -->
+        <div class="interactive-grid">
+            
+            <!-- Box 1: Secret Reasons Note Generator -->
+            <div class="interactive-box">
+                <h3>💖 Why I Adore You</h3>
+                <button class="romantic-btn" id="reason-btn" style="padding: 0.6rem 1.4rem; font-size: 0.95rem;">
+                    Tap for a Secret
+                </button>
+                <div class="dynamic-output" id="reason-output">Click the button above to reveal a sweet little reason ✨</div>
+            </div>
+
+            <!-- Box 2: Interactive Heart Widget -->
+            <div class="interactive-box">
+                <h3>💓 Send a Heartbeat</h3>
+                <div class="interactive-heart-container" id="heart-widget">
+                    <div class="big-heart" id="pulsing-heart">💖</div>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Tap the heart!</span>
+                </div>
+                <div class="dynamic-output" id="heart-output" style="min-height: 30px;"></div>
+            </div>
+
+        </div>
+
+        <!-- Final Closing Screen Box -->
+        <div class="final-screen">
+            <h2>"Today is all about you. Keep smiling, keep shining, and never forget how much you are loved. ❤️"</h2>
+            <button class="romantic-btn" id="final-surprise-btn">
+                One Last Surprise 💝
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Final Surprise Modal Overlay -->
+    <div class="modal-overlay" id="surprise-modal">
+        <div class="modal-card">
+            <h3>My Promise To You 🌹</h3>
+            <p>No matter where life takes us, through every season and every tomorrow, my favorite place in the entire world will always be right next to you. Happy Birthday, my love. Let's make all our dreams come true together.</p>
+            <button class="close-modal" id="close-modal-btn">Close with a Smile ✨</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Experience Logic -->
+    <script>
+        // 1. Generate Twinkling Stars Dynamically
+        const starsContainer = document.getElementById('stars-container');
+        const starCount = 120;
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.top = `${Math.random() * 100}vh`;
+            star.style.left = `${Math.random() * 100}vw`;
+            const size = Math.random() * 2.5 + 1;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.setProperty('--duration', `${Math.random() * 3 + 2}s`);
+            star.style.setProperty('--opacity', Math.random() * 0.7 + 0.3);
+            star.style.animationDelay = `${Math.random() * 5}s`;
+            starsContainer.appendChild(star);
+        }
+
+        // 2. Generate Floating Ambient Light Particles
+        const particlesContainer = document.getElementById('particles-container');
+        const particleCount = 18;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('floating-particle');
+            const size = Math.random() * 60 + 20;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.setProperty('--speed', `${Math.random() * 8 + 6}s`);
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            particlesContainer.appendChild(particle);
+        }
+
+        // 3. Envelope Open Transition
+        const openBtn = document.getElementById('open-btn');
+        const envelopeScreen = document.getElementById('envelope-screen');
+        const mainCelebration = document.getElementById('main-celebration');
+
+        openBtn.addEventListener('click', () => {
+            envelopeScreen.style.opacity = '0';
+            envelopeScreen.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                envelopeScreen.classList.add('hidden');
+                mainCelebration.classList.remove('hidden');
+                // Trigger reflow for transition
+                void mainCelebration.offsetWidth;
+                mainCelebration.classList.add('visible');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 600);
+        });
+
+        // 4. Secret Love Reasons Generator
+        const reasons = [
+            "The way your eyes light up when you talk about your passions.",
+            "How safe and at peace I feel whenever I’m wrapped in your arms.",
+            "Your sweet morning texts that instantly make my entire day brighter.",
+            "The silly, beautiful little quirks that make you uniquely you.",
+            "How deeply caring and compassionate your wonderful heart is.",
+            "The way you make even ordinary quiet moments feel like magic."
+        ];
+        
+        const reasonBtn = document.getElementById('reason-btn');
+        const reasonOutput = document.getElementById('reason-output');
+        let lastReasonIdx = -1;
+
+        reasonBtn.addEventListener('click', () => {
+            let randomIdx;
+            do {
+                randomIdx = Math.floor(Math.random() * reasons.length);
+            } while (randomIdx === lastReasonIdx && reasons.length > 1);
+            
+            lastReasonIdx = randomIdx;
+            
+            reasonOutput.classList.remove('show');
+            setTimeout(() => {
+                reasonOutput.textContent = `"${reasons[randomIdx]}"`;
+                reasonOutput.classList.add('show');
+            }, 200);
+        });
+
+        // 5. Interactive Heart Click Response
+        const heartWidget = document.getElementById('heart-widget');
+        const pulsingHeart = document.getElementById('pulsing-heart');
+        const heartOutput = document.getElementById('heart-output');
+        
+        const heartMessages = [
+            "You just made my heart skip a beat! 💓",
+            "Sending a warm hug straight to your heart! 🤗",
+            "You hold the key to my entire world! 🔐❤️",
+            "My favorite notification is you! ✨"
+        ];
+        
+        let heartClickCount = 0;
+        heartWidget.addEventListener('click', () => {
+            pulsingHeart.style.transform = 'scale(1.35)';
+            setTimeout(() => {
+                pulsingHeart.style.transform = 'scale(1)';
+            }, 200);
+
+            const msg = heartMessages[heartClickCount % heartMessages.length];
+            heartClickCount++;
+
+            heartOutput.classList.remove('show');
+            setTimeout(() => {
+                heartOutput.textContent = msg;
+                heartOutput.classList.add('show');
+            }, 150);
+        });
+
+        // 6. Final Surprise Modal Logic
+        const finalSurpriseBtn = document.getElementById('final-surprise-btn');
+        const surpriseModal = document.getElementById('surprise-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        finalSurpriseBtn.addEventListener('click', () => {
+            surpriseModal.classList.add('active');
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            surpriseModal.classList.remove('active');
+        });
+
+        surpriseModal.addEventListener('click', (e) => {
+            if (e.target === surpriseModal) {
+                surpriseModal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
