@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Little World Made Just For You ❤️</title>
+    <title>Only For My Shehzaadi 👑❤️</title>
     <style>
         :root {
             --bg-deep: #0a0718;
-            --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #1e193c 50%, #24243e 100%);
             --rose-gold: #e0a899;
             --rose-gold-light: #f3d1cb;
             --accent-pink: #ff758c;
@@ -24,6 +24,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            user-select: none;
         }
 
         body {
@@ -34,11 +35,93 @@
             overflow-x: hidden;
             position: relative;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
         }
 
-        /* Starry Background */
+        /* Top Progress Bar & Music Toggle */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--rose-gold), var(--accent-pink));
+            transition: width 0.3s ease;
+        }
+
+        .floating-controls {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 999;
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            color: var(--text-light);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+            border-color: var(--accent-pink);
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-deep);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            transition: opacity 0.8s ease;
+        }
+
+        .loader-heart {
+            font-size: 3.5rem;
+            animation: pulseHeart 1.2s infinite ease-in-out;
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .loader-text {
+            color: var(--rose-gold-light);
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* Background Stars & Particles */
         .stars {
             position: fixed;
             top: 0;
@@ -55,6 +138,13 @@
             border-radius: 50%;
             animation: twinkle var(--duration) infinite ease-in-out;
             opacity: var(--opacity);
+            cursor: pointer;
+            pointer-events: auto;
+            transition: transform 0.3s;
+        }
+
+        .star:hover {
+            transform: scale(2);
         }
 
         @keyframes twinkle {
@@ -62,7 +152,6 @@
             50% { transform: scale(1.2); opacity: 1; }
         }
 
-        /* Floating Light Orbs & Hearts Background */
         .ambient-particles {
             position: fixed;
             top: 0;
@@ -77,16 +166,16 @@
         .floating-particle {
             position: absolute;
             bottom: -50px;
-            background: radial-gradient(circle, rgba(255,117,140,0.3) 0%, rgba(48,43,99,0) 70%);
+            background: radial-gradient(circle, rgba(255,117,140,0.25) 0%, rgba(48,43,99,0) 70%);
             border-radius: 50%;
             animation: floatUp var(--speed) infinite linear;
         }
 
         @keyframes floatUp {
             0% { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
-            20% { opacity: 0.6; }
-            80% { opacity: 0.6; }
-            100% { transform: translateY(-105vh) translateX(50px) scale(1.2); opacity: 0; }
+            20% { opacity: 0.5; }
+            80% { opacity: 0.5; }
+            100% { transform: translateY(-105vh) translateX(40px) scale(1.2); opacity: 0; }
         }
 
         /* Container Layouts */
@@ -94,25 +183,25 @@
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 700px;
-            padding: 2rem;
+            max-width: 800px;
+            padding: 2rem 1rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
         .hidden {
             display: none !important;
-            opacity: 0;
-            transform: scale(0.95);
         }
 
-        /* Screen 1: Envelope Opening */
+        /* Section 1: Envelope Opening */
         #envelope-screen {
-            animation: fadeIn 1.2s ease forwards;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .envelope-wrapper {
@@ -141,19 +230,13 @@
             background: linear-gradient(135deg, var(--rose-gold), var(--accent-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: pulseHeart 2s infinite ease-in-out;
-        }
-
-        @keyframes pulseHeart {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
         }
 
         .envelope-text {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: var(--text-muted);
             font-weight: 300;
-            letter-spacing: 0.5px;
+            line-height: 1.6;
         }
 
         /* Buttons Style */
@@ -162,7 +245,7 @@
             color: white;
             border: none;
             padding: 0.9rem 2.2rem;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 600;
             border-radius: 50px;
             cursor: pointer;
@@ -180,56 +263,19 @@
             background: linear-gradient(135deg, #ff6b81 0%, #ff70a6 100%);
         }
 
-        .romantic-btn:active {
-            transform: translateY(-1px);
-        }
-
-        /* Screen 2 & Main Content Styles */
-        #main-celebration {
-            width: 100%;
-            max-width: 800px;
-            padding: 2rem 1rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-
-        #main-celebration.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .greeting-header {
-            margin-bottom: 2.5rem;
-        }
-
-        .greeting-header h1 {
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--rose-gold-light), var(--accent-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 5px 15px rgba(255, 117, 140, 0.2);
-        }
-
-        .greeting-header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
         /* Glass Cards */
         .glass-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(16px);
             border-radius: 20px;
-            padding: 2.5rem;
+            padding: 2.5rem 2rem;
             box-shadow: var(--card-shadow);
             margin-bottom: 2rem;
             text-align: left;
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         .glass-card::before {
@@ -242,14 +288,89 @@
             background: linear-gradient(to bottom, var(--rose-gold), var(--accent-pink));
         }
 
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 2.5rem;
+            width: 100%;
+        }
+
+        .section-header h1 {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--rose-gold-light), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* 3D Cake & Candles */
+        .cake-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+            cursor: pointer;
+        }
+
+        .cake-graphic {
+            font-size: 5rem;
+            animation: bounceCake 3s infinite ease-in-out;
+            position: relative;
+        }
+
+        @keyframes bounceCake {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .candle-instruction {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: var(--rose-gold-light);
+            background: rgba(255,117,140,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,117,140,0.2);
+        }
+
+        /* Love Meter & Counter */
+        .love-counter-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            background: rgba(255,255,255,0.08);
+            border-radius: 30px;
+            height: 18px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--glass-border);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));
+            border-radius: 30px;
+            transition: width 1.5s ease;
+        }
+
+        /* Love Letter */
         .love-letter h2 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--rose-gold-light);
             margin-bottom: 1.2rem;
             font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .love-letter p {
@@ -260,128 +381,207 @@
             font-weight: 300;
         }
 
-        .love-letter p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Interactive Sections Grid */
-        .interactive-grid {
+        /* 7 Reasons Flip Cards */
+        .reasons-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 1.5rem;
+            gap: 1.2rem;
+            width: 100%;
             margin-bottom: 2rem;
         }
 
         @media(min-width: 600px) {
-            .interactive-grid {
+            .reasons-grid {
                 grid-template-columns: 1fr 1fr;
             }
         }
 
-        .interactive-box {
+        .reason-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(12px);
             border-radius: 16px;
             padding: 1.8rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            min-height: 120px;
             text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .interactive-box:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 117, 140, 0.3);
-            background: rgba(255, 255, 255, 0.06);
+        .reason-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,117,140,0.4);
+            background: rgba(255,255,255,0.07);
         }
 
-        .interactive-box h3 {
-            font-size: 1.1rem;
+        .reason-card h4 {
             color: var(--rose-gold-light);
-            margin-bottom: 1rem;
-            font-weight: 500;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
         }
 
-        /* Dynamic Message Display Area */
-        .dynamic-output {
-            margin-top: 1rem;
+        .reason-card p {
+            color: var(--text-muted);
             font-size: 0.95rem;
-            color: var(--accent-purple);
-            font-style: italic;
-            min-height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 0.5rem;
-            transition: all 0.4s ease;
-            opacity: 0;
-            transform: translateY(5px);
+            display: none;
+            font-weight: 300;
+            line-height: 1.5;
         }
 
-        .dynamic-output.show {
-            opacity: 1;
-            transform: translateY(0);
+        .reason-card.revealed p {
+            display: block;
+            animation: fadeIn 0.4s ease;
         }
 
-        /* Interactive Heart Widget */
-        .interactive-heart-container {
+        .reason-card.revealed h4 {
+            color: var(--accent-pink);
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        /* Hidden Love Messages (10 Hearts Grid) */
+        .hearts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        @media(min-width: 600px) {
+            .hearts-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        .heart-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 1.2rem;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
-            padding: 1rem;
+            transition: all 0.3s ease;
         }
 
-        .big-heart {
-            font-size: 3.5rem;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            user-select: none;
+        .heart-item:hover {
+            background: rgba(255,117,140,0.1);
+            transform: scale(1.05);
         }
 
-        .big-heart:hover {
-            transform: scale(1.15);
+        .heart-item span {
+            font-size: 1.8rem;
         }
 
-        .big-heart:active {
-            transform: scale(0.9);
+        .heart-item small {
+            color: var(--text-muted);
+            font-size: 0.8rem;
         }
 
-        /* Final Screen / Closing Section */
-        .final-screen {
+        /* Universe Section */
+        .universe-box {
+            background: radial-gradient(circle at center, #1e193c 0%, #0a0718 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .universe-heart {
+            font-size: 4rem;
+            animation: pulseHeart 2s infinite ease-in-out;
+            margin: 1rem 0;
+        }
+
+        /* Love Quiz */
+        .quiz-box {
+            width: 100%;
+            text-align: left;
+        }
+
+        .quiz-question {
+            font-size: 1.15rem;
+            color: var(--rose-gold-light);
+            margin-bottom: 1.2rem;
+            font-weight: 500;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-option {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            backdrop-filter: blur(16px);
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            text-align: center;
-            box-shadow: var(--card-shadow);
-            margin-top: 2rem;
-            position: relative;
+            padding: 0.9rem 1.2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+            font-size: 0.95rem;
         }
 
-        .final-screen h2 {
-            font-size: clamp(1.4rem, 2.5vw, 1.9rem);
-            color: var(--text-light);
-            line-height: 1.6;
-            font-weight: 400;
+        .quiz-option:hover {
+            background: rgba(255,117,140,0.15);
+            border-color: var(--accent-pink);
+        }
+
+        .quiz-feedback {
+            font-size: 0.95rem;
+            color: var(--accent-purple);
+            font-style: italic;
+            min-height: 30px;
+        }
+
+        /* Compliment & Secret Buttons Container */
+        .interactive-tools {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
             margin-bottom: 2rem;
         }
 
-        /* Modal Overlay for Final Surprise */
+        .output-display {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 1.2rem;
+            border-radius: 14px;
+            color: var(--rose-gold-light);
+            font-size: 1rem;
+            font-style: italic;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* Modal Overlay */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 7, 24, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 100;
+            background: rgba(10, 7, 24, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 3000;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -397,17 +597,16 @@
         }
 
         .modal-card {
-            background: linear-gradient(135deg, rgba(30, 25, 60, 0.95), rgba(15, 12, 41, 0.95));
+            background: linear-gradient(135deg, rgba(30, 25, 60, 0.98), rgba(15, 12, 41, 0.98));
             border: 1px solid rgba(255, 117, 140, 0.3);
             border-radius: 24px;
-            padding: 2.5rem;
+            padding: 2.5rem 2rem;
             max-width: 500px;
             width: 100%;
             text-align: center;
             box-shadow: 0 25px 50px rgba(0,0,0,0.6);
             transform: scale(0.9);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
         }
 
         .modal-overlay.active .modal-card {
@@ -416,7 +615,7 @@
 
         .modal-card h3 {
             color: var(--rose-gold-light);
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             margin-bottom: 1rem;
         }
 
@@ -428,115 +627,246 @@
             font-weight: 300;
         }
 
-        .close-modal {
-            background: transparent;
-            border: 1px solid var(--rose-gold);
-            color: var(--rose-gold-light);
-            padding: 0.6rem 1.8rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .close-modal:hover {
-            background: var(--rose-gold);
-            color: var(--bg-deep);
+        /* Footer */
+        footer {
+            margin-top: 3rem;
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--glass-border);
+            width: 100%;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.97); }
-            to { opacity: 1; transform: scale(1); }
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
+    <!-- Top Progress Bar -->
+    <div class="top-bar">
+        <div class="progress-fill" id="progress-bar"></div>
+    </div>
+
+    <!-- Floating Audio & Theme Controls -->
+    <div class="floating-controls">
+        <button class="control-btn" id="audio-toggle" title="Toggle Music">🎵</button>
+        <button class="control-btn" id="theme-toggle" title="Toggle Theme Vibe">✨</button>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-heart">💖</div>
+        <div class="loader-text">Mero shehzaadi ko lagi magical world load hudai cha... ⏳✨</div>
+    </div>
+
     <!-- Twinkling Starry Background -->
     <div class="stars" id="stars-container"></div>
-
-    <!-- Floating Ambient Orbs Background -->
     <div class="ambient-particles" id="particles-container"></div>
 
-    <!-- SCREEN 1: Opening Experience -->
+    <!-- SECTION 1: Magical Introduction (Envelope) -->
     <div class="screen-container" id="envelope-screen">
         <div class="envelope-wrapper">
             <div class="envelope-icon">💌</div>
-            <div class="envelope-text">Someone has a little surprise for you...</div>
+            <div class="envelope-text">Oiii mero Sunitaaa... timro lagi euta sano surprise cha babeee 🥺❤️</div>
             <button class="romantic-btn" id="open-btn">
-                Open Your Surprise ❤️
+                Open Gara Na Budi 💌
             </button>
         </div>
     </div>
 
-    <!-- SCREEN 2: Main Birthday Celebration Experience -->
-    <div class="screen-container hidden" id="main-celebration">
-        
-        <!-- Header -->
-        <div class="greeting-header">
-            <h1>Happy Birthday, My Love! ❤️</h1>
-            <p>A little world crafted with all my heart, just for you.</p>
+    <!-- MAIN CELEBRATION WORLD (Hidden initially) -->
+    <div class="screen-container hidden" id="main-world">
+
+        <!-- SECTION 2: Grand Birthday Reveal -->
+        <div class="section-header">
+            <h1>HAPPIEST BIRTHDAY MERO SUNITAAA! 🎂❤️</h1>
+            <p>Mero pyaro budi, mero shehzaadi, timro yo special day ekdam special hos.</p>
         </div>
 
-        <!-- The Love Letter -->
+        <div class="glass-card cake-container" id="cake-section">
+            <div class="cake-graphic">🎂🕯️</div>
+            <div class="candle-instruction" id="candle-instruction">Tap candles to blow them out! 🌬️✨</div>
+        </div>
+
+        <!-- SECTION 3: Personalized Love Counter -->
+        <div class="glass-card love-counter-box">
+            <h3 style="color: var(--rose-gold-light);">You are my favourite person ❤️</h3>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="love-meter-fill" style="width: 0%;"></div>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Love Level: 100% Guaranteed & Certified for Sunita 💗</p>
+        </div>
+
+        <!-- SECTION 4: My Heart To You - Love Letter -->
         <div class="glass-card love-letter">
-            <h2>✨ A Letter Straight From My Heart</h2>
-            <p>My dearest,</p>
-            <p>Today is a celebration of the most wonderful person who has ever walked into my life. Words often feel too small to capture how deeply special you are to me, but I want you to know that your presence is my greatest blessing.</p>
-            <p>I am endlessly grateful for your kindness, your warmth, and the effortless way your smile turns my ordinary days into something extraordinary. Whenever things get heavy, your laughter is the softest light that brings me home.</p>
-            <p>On your birthday, and on every single day after, I wish you oceans of happiness, boundless peace, and all the success in the world. You deserve every beautiful thing this universe has to offer—because you bring so much beauty into it yourself.</p>
-            <p style="text-align: right; margin-top: 1.5rem; font-style: italic; color: var(--rose-gold-light);">Forever and always yours, ❤️</p>
-        </div>
-
-        <!-- Interactive Surprise Sections -->
-        <div class="interactive-grid">
-            
-            <!-- Box 1: Secret Reasons Note Generator -->
-            <div class="interactive-box">
-                <h3>💖 Why I Adore You</h3>
-                <button class="romantic-btn" id="reason-btn" style="padding: 0.6rem 1.4rem; font-size: 0.95rem;">
-                    Tap for a Secret
-                </button>
-                <div class="dynamic-output" id="reason-output">Click the button above to reveal a sweet little reason ✨</div>
-            </div>
-
-            <!-- Box 2: Interactive Heart Widget -->
-            <div class="interactive-box">
-                <h3>💓 Send a Heartbeat</h3>
-                <div class="interactive-heart-container" id="heart-widget">
-                    <div class="big-heart" id="pulsing-heart">💖</div>
-                    <span style="font-size: 0.85rem; color: var(--text-muted);">Tap the heart!</span>
-                </div>
-                <div class="dynamic-output" id="heart-output" style="min-height: 30px;"></div>
-            </div>
-
-        </div>
-
-        <!-- Final Closing Screen Box -->
-        <div class="final-screen">
-            <h2>"Today is all about you. Keep smiling, keep shining, and never forget how much you are loved. ❤️"</h2>
-            <button class="romantic-btn" id="final-surprise-btn">
-                One Last Surprise 💝
+            <h2>✨ Dear mero babeee... ❤️</h2>
+            <p>Timi mero life ko ekdam special manche hau. Timro smile le mero din ramro banaidincha. Timro presence matra le pani mero sabai tension birsayera malai khusi banaucha.</p>
+            <p id="letter-extended" class="hidden">Ma timro harek sapana pura hos bhanera sadhai chahanchu. Timi mero lagi kati important chau bhanera words le explain garna ali garo nai cha, tara it's more than anything in this world. Happy birthday mero pyaro budi, sadhai yesari nai hasirakhanu!</p>
+            <button class="romantic-btn" id="expand-letter-btn" style="padding: 0.60rem 1.4rem; font-size: 0.9rem; margin-top: 0.5rem;">
+                Ajhai Padhna Man Cha? 🥺
             </button>
         </div>
 
+        <!-- SECTION 5: 7 Reasons Why You Are Special -->
+        <div class="section-header" style="margin-top: 1rem; text-align: left; width: 100%;">
+            <h3 style="color: var(--rose-gold-light); font-size: 1.4rem;">💫 7 Reasons Why You Are Special</h3>
+            <p style="font-size: 0.95rem;">Tap each card to reveal why you mean the world to me.</p>
+        </div>
+
+        <div class="reasons-grid">
+            <div class="reason-card" onclick="toggleReason(this)">
+                <h4>Reason 1 ✨</h4>
+                <p>Timro cute smile le mero jattiko dark din lai pani instant bright banaidincha!</p>
+            </div>
+            <div class="reason-card" onclick="toggleReason(this)">
+                <h4>Reason 2 💗</h4>
+                <p>Timro beautiful heart, jasle sano bhanda sano kura ma ni aruko care garchau.</p>
+            </div>
+            <div class="reason-card" onclick="toggleReason(this)">
+                <h4>Reason 3 🥰</h4>
+                <p>Timro maya garne tarika, jasle malai world ko sabai bhanda lucky boyfriend feel garaucha.</p>
+            </div>
+            <div class="reason-card" onclick="toggleReason(this)">
+                <h4>Reason 4 😤</h4>
+                <p>Timro cute cute ris ra ziddhi, jaba malai risaudha pani timi utikai pyari lagchau.</p>
+            </div>
+            <div class="reason-card" onclick="toggleReason(this)">
+                <h4>Reason 5 🥺</h4>
+                <p>Timro innocent moments ra childish reactions, jasle mero face ma automatic smile lyaucha.</p>
+            </div>
+            <div class="reason-card" onclick="toggleReason(this)">
+                <h4>Reason 6 ✨</h4>
+                <p>Timro presence matra le mero life ko sabai problems fade out gardincha.</p>
+            </div>
+            <div class="reason-card" style="grid-column: 1 / -1;" onclick="toggleReason(this)">
+                <h4>Reason 7 👑❤️</h4>
+                <p>Because you are YOU, mero Sunita! Never change, because you are absolute perfection to me.</p>
+            </div>
+        </div>
+
+        <!-- SECTION 6: Hidden Love Messages (10 Hearts) -->
+        <div class="section-header" style="text-align: left; width: 100%;">
+            <h3 style="color: var(--rose-gold-light); font-size: 1.4rem;">💌 Hidden Love Messages</h3>
+            <p style="font-size: 0.95rem;">Tap all 10 surprise hearts below to read sweet notes!</p>
+        </div>
+
+        <div class="hearts-grid" id="hidden-hearts-grid">
+            <!-- Populated via JS -->
+        </div>
+        <div class="output-display" id="heart-message-output" style="margin-bottom: 2rem;">
+            ✨ Tap any heart above to reveal a secret note from me!
+        </div>
+
+        <!-- SECTION 7: Make A Wish Section -->
+        <div class="glass-card" style="text-align: center;">
+            <h3 style="color: var(--rose-gold-light); margin-bottom: 1rem;">🕯️ Make A Birthday Wish</h3>
+            <p style="margin-bottom: 1.5rem; font-weight: 300;">Blow out the candles below to lock in your birthday wish!</p>
+            <div style="font-size: 3rem; cursor: pointer; margin-bottom: 1rem;" onclick="triggerWishCelebration(this)">🎂🔥</div>
+            <div id="wish-reveal" class="hidden" style="color: var(--accent-pink); font-style: italic; margin-top: 1rem; line-height: 1.6;">
+                "Timro harek sapana pura hos mero love. Life le timilai sadhai khusi, maya ra success diyos. ❤️"
+            </div>
+        </div>
+
+        <!-- SECTION 8: Our Little Universe -->
+        <div class="universe-box">
+            <h3 style="color: var(--rose-gold-light); font-size: 1.4rem;">🌌 Our Little Universe</h3>
+            <div class="universe-heart">💖</div>
+            <p style="color: var(--text-light); font-size: 1.1rem; font-weight: 300; max-width: 500px; margin: 0 auto; line-height: 1.6;">
+                "Yo pura universe ma mero favourite person timi nai hau, Sunita."
+            </p>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 1rem;">(Tip: Try clicking the twinkling stars in the background background sky! ✨)</p>
+        </div>
+
+        <!-- SECTION 9: Love Quiz -->
+        <div class="glass-card quiz-box">
+            <h3 style="color: var(--rose-gold-light); margin-bottom: 1.2rem;">🧩 Love Quiz: How Well Do You Know My Love?</h3>
+            <div id="quiz-container">
+                <div class="quiz-question" id="quiz-q-text">Loading question...</div>
+                <div class="quiz-options" id="quiz-options-list"></div>
+                <div class="quiz-feedback" id="quiz-feedback"></div>
+            </div>
+        </div>
+
+        <!-- SECTION 10 & 11: Compliment Generator & Secret Button -->
+        <div class="interactive-tools">
+            <div class="glass-card" style="margin-bottom: 0; text-align: center;">
+                <h3 style="color: var(--rose-gold-light); margin-bottom: 1rem;">🌸 Compliment Generator</h3>
+                <button class="romantic-btn" id="compliment-btn">Malai compliment deu na babeee 🥹</button>
+                <div class="output-display" id="compliment-output" style="margin-top: 1rem;">
+                    Tap the button to hear a sweet compliment! ✨
+                </div>
+            </div>
+
+            <div class="glass-card" style="margin-bottom: 0; text-align: center;">
+                <h3 style="color: var(--rose-gold-light); margin-bottom: 1rem;">🕵️ Mysterious Secret</h3>
+                <button class="romantic-btn" id="secret-btn" style="background: linear-gradient(135deg, #a17fe0 0%, #5c246e 100%);">
+                    Secret Thichha Ta? 👀
+                </button>
+            </div>
+        </div>
+
+        <!-- SECTION 12: Final Grand Surprise -->
+        <div class="glass-card" style="text-align: center; margin-top: 2rem;">
+            <h2 style="color: var(--rose-gold-light); font-size: 1.8rem; margin-bottom: 1rem;">Happy Birthday Again, Mero Shehzaadi! 👑❤️</h2>
+            <p style="line-height: 1.8; margin-bottom: 2rem; font-weight: 300;">
+                Thank you mero life ma aayera yeti dherai happiness lyayeko ma. Sadhai khusi rahanu, hasirakhanu. Timro harek birthday ajhai beautiful hos. I love you so much, mero babeee! 💋
+            </p>
+            <button class="romantic-btn" id="final-hug-btn">
+                One Last Hug For You 🤗
+            </button>
+        </div>
+
+        <footer>
+            Made with endless love, just for you, Sunita ❤️<br>
+            <span style="font-size: 0.8rem; opacity: 0.7;">Your personal romantic digital world</span>
+        </footer>
+
     </div>
 
-    <!-- Final Surprise Modal Overlay -->
-    <div class="modal-overlay" id="surprise-modal">
+    <!-- Final Hug Modal -->
+    <div class="modal-overlay" id="hug-modal">
         <div class="modal-card">
-            <h3>My Promise To You 🌹</h3>
-            <p>No matter where life takes us, through every season and every tomorrow, my favorite place in the entire world will always be right next to you. Happy Birthday, my love. Let's make all our dreams come true together.</p>
-            <button class="close-modal" id="close-modal-btn">Close with a Smile ✨</button>
+            <h3>🫂 Virtual Hug Delivered!</h3>
+            <p>Sending the biggest, warmest hug straight to my budi! Close your eyes and feel how much I adore you. Happy Birthday, Sunita! ❤️✨</p>
+            <button class="romantic-btn" onclick="closeModal()">Close with a Smile 🥰</button>
+        </div>
+    </div>
+
+    <!-- Secret Message Modal -->
+    <div class="modal-overlay" id="secret-modal">
+        <div class="modal-card">
+            <h3>💌 A Secret From My Heart</h3>
+            <p>Sunita, timi mero lagi kati special chau bhanera sayad ma sadhai bhanna sakdina, tara timro khusi mero lagi ekdam important cha. Dherai dherai maya hai mero budi. ❤️</p>
+            <button class="romantic-btn" onclick="closeSecretModal()">Love you too! 🥺</button>
         </div>
     </div>
 
     <!-- JavaScript Experience Logic -->
     <script>
-        // 1. Generate Twinkling Stars Dynamically
+        // 1. Loading Screen & Progress Logic
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loading-screen');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 800);
+            }, 1200);
+        });
+
+        // Update Progress Bar based on scroll
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+        });
+
+        // 2. Twinkling Stars Generation
         const starsContainer = document.getElementById('stars-container');
-        const starCount = 120;
-        for (let i = 0; i < starCount; i++) {
+        for (let i = 0; i < 100; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
             star.style.top = `${Math.random() * 100}vh`;
@@ -547,16 +877,22 @@
             star.style.setProperty('--duration', `${Math.random() * 3 + 2}s`);
             star.style.setProperty('--opacity', Math.random() * 0.7 + 0.3);
             star.style.animationDelay = `${Math.random() * 5}s`;
+            
+            // Interactive star click message
+            star.addEventListener('click', (e) => {
+                e.stopPropagation();
+                alert("✨ Star secret: Sunita, you are the brightest star in my universe! 💖");
+            });
+
             starsContainer.appendChild(star);
         }
 
-        // 2. Generate Floating Ambient Light Particles
+        // Floating Ambient Particles
         const particlesContainer = document.getElementById('particles-container');
-        const particleCount = 18;
-        for (let i = 0; i < particleCount; i++) {
+        for (let i = 0; i < 15; i++) {
             const particle = document.createElement('div');
             particle.classList.add('floating-particle');
-            const size = Math.random() * 60 + 20;
+            const size = Math.random() * 50 + 20;
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             particle.style.left = `${Math.random() * 100}vw`;
@@ -565,98 +901,200 @@
             particlesContainer.appendChild(particle);
         }
 
-        // 3. Envelope Open Transition
+        // 3. Opening Envelope Transition
         const openBtn = document.getElementById('open-btn');
         const envelopeScreen = document.getElementById('envelope-screen');
-        const mainCelebration = document.getElementById('main-celebration');
+        const mainWorld = document.getElementById('main-world');
 
         openBtn.addEventListener('click', () => {
             envelopeScreen.style.opacity = '0';
             envelopeScreen.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 envelopeScreen.classList.add('hidden');
-                mainCelebration.classList.remove('hidden');
-                // Trigger reflow for transition
-                void mainCelebration.offsetWidth;
-                mainCelebration.classList.add('visible');
+                mainWorld.classList.remove('hidden');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Animate Love Meter fill on load
+                setTimeout(() => {
+                    document.getElementById('love-meter-fill').style.width = '100%';
+                }, 400);
             }, 600);
         });
 
-        // 4. Secret Love Reasons Generator
-        const reasons = [
-            "The way your eyes light up when you talk about your passions.",
-            "How safe and at peace I feel whenever I’m wrapped in your arms.",
-            "Your sweet morning texts that instantly make my entire day brighter.",
-            "The silly, beautiful little quirks that make you uniquely you.",
-            "How deeply caring and compassionate your wonderful heart is.",
-            "The way you make even ordinary quiet moments feel like magic."
+        // 4. Interactive Cake Candles Blow Out
+        const cakeSection = document.getElementById('cake-section');
+        let candlesBlown = false;
+        cakeSection.addEventListener('click', () => {
+            if (!candlesBlown) {
+                candlesBlown = true;
+                cakeSection.querySelector('.cake-graphic').textContent = '🎂✨';
+                document.getElementById('candle-instruction').textContent = 'Candles blown out! Happiest Birthday Sunita! 🎉❤️';
+            }
+        });
+
+        // 5. Love Letter Expansion
+        const expandLetterBtn = document.getElementById('expand-letter-btn');
+        const letterExtended = document.getElementById('letter-extended');
+        expandLetterBtn.addEventListener('click', () => {
+            letterExtended.classList.toggle('hidden');
+            expandLetterBtn.textContent = letterExtended.classList.contains('hidden') ? 'Ajhai Padhna Man Cha? 🥺' : 'Thorai Kam Garnu Padyo 😂❤️';
+        });
+
+        // 6. Reasons Card Flip / Reveal
+        function toggleReason(card) {
+            card.classList.toggle('revealed');
+        }
+
+        // 7. Hidden Love Messages (10 Hearts)
+        const hiddenMessages = [
+            "Oiii babeee, dherai maya garchu hai timilai ❤️",
+            "Mero shehzaadi sadhai yesari nai hasirakha.",
+            "Budi, timi mero favourite notification hau.",
+            "Ekdam dherai miss garchu timilai 🥺",
+            "Mero Sunita, you are my absolute happiness.",
+            "Timi sanga huda samay biteko thaha nai hudaina ✨",
+            "Timro ris pani malai cute lagcha baal chhaina 😂",
+            "You are the best thing that ever happened to me 💗",
+            "Sadhai mero yo mutu ko najik 🫂",
+            "I love you more than words can ever say, Sunita! 👑❤️"
         ];
-        
-        const reasonBtn = document.getElementById('reason-btn');
-        const reasonOutput = document.getElementById('reason-output');
-        let lastReasonIdx = -1;
 
-        reasonBtn.addEventListener('click', () => {
-            let randomIdx;
-            do {
-                randomIdx = Math.floor(Math.random() * reasons.length);
-            } while (randomIdx === lastReasonIdx && reasons.length > 1);
-            
-            lastReasonIdx = randomIdx;
-            
-            reasonOutput.classList.remove('show');
-            setTimeout(() => {
-                reasonOutput.textContent = `"${reasons[randomIdx]}"`;
-                reasonOutput.classList.add('show');
-            }, 200);
+        const heartsGrid = document.getElementById('hidden-hearts-grid');
+        const heartOutput = document.getElementById('heart-message-output');
+
+        hiddenMessages.forEach((msg, idx) => {
+            const div = document.createElement('div');
+            div.classList.add('heart-item');
+            div.innerHTML = `<span>💖</span><small>Note #${idx+1}</small>`;
+            div.addEventListener('click', () => {
+                div.style.background = 'rgba(255,117,140,0.2)';
+                div.querySelector('span').textContent = '💌';
+                heartOutput.textContent = `"${msg}"`;
+            });
+            heartsGrid.appendChild(div);
         });
 
-        // 5. Interactive Heart Click Response
-        const heartWidget = document.getElementById('heart-widget');
-        const pulsingHeart = document.getElementById('pulsing-heart');
-        const heartOutput = document.getElementById('heart-output');
-        
-        const heartMessages = [
-            "You just made my heart skip a beat! 💓",
-            "Sending a warm hug straight to your heart! 🤗",
-            "You hold the key to my entire world! 🔐❤️",
-            "My favorite notification is you! ✨"
+        // 8. Make a Wish Section
+        function triggerWishCelebration(el) {
+            el.textContent = '✨🎉🌟';
+            document.getElementById('wish-reveal').classList.remove('hidden');
+        }
+
+        // 9. Love Quiz Logic
+        const quizData = [
+            {
+                q: "Mero sabai bhanda favourite manche ko naam k hola? 😏",
+                options: ["Sunita 👑", "Mero Shehzaadi 💖", "Mero Budi 🥹", "Sabai ma timi nai hau! ❤️"],
+                correct: 3,
+                response: "Ekdum correct! Sabei option ma timi nai chau mero love! 🥰"
+            },
+            {
+                q: "Timro kun kura le malai sabai bhanda dherai low feel huda pani hasauna sakcha? ✨",
+                options: ["Timro cute smile", "Timro kando kura", "Timro risaune style", "Sabai kura! 🤭"],
+                correct: 3,
+                response: "Sacho! Timro sabai harkat malai pyaro lagcha. ❤️"
+            }
         ];
-        
-        let heartClickCount = 0;
-        heartWidget.addEventListener('click', () => {
-            pulsingHeart.style.transform = 'scale(1.35)';
-            setTimeout(() => {
-                pulsingHeart.style.transform = 'scale(1)';
-            }, 200);
 
-            const msg = heartMessages[heartClickCount % heartMessages.length];
-            heartClickCount++;
+        let currentQuizIdx = 0;
+        const qText = document.getElementById('quiz-q-text');
+        const qOptionsList = document.getElementById('quiz-options-list');
+        const qFeedback = document.getElementById('quiz-feedback');
 
-            heartOutput.classList.remove('show');
-            setTimeout(() => {
-                heartOutput.textContent = msg;
-                heartOutput.classList.add('show');
-            }, 150);
+        function loadQuiz() {
+            if (currentQuizIdx < quizData.length) {
+                const current = quizData[currentQuizIdx];
+                qText.textContent = `Q${currentQuizIdx+1}: ${current.q}`;
+                qOptionsList.innerHTML = '';
+                current.options.forEach((opt, idx) => {
+                    const btn = document.createElement('div');
+                    btn.classList.add('quiz-option');
+                    btn.textContent = opt;
+                    btn.addEventListener('click', () => {
+                        qFeedback.textContent = current.response;
+                        setTimeout(() => {
+                            currentQuizIdx++;
+                            loadQuiz();
+                        }, 1800);
+                    });
+                    qOptionsList.appendChild(btn);
+                });
+            } else {
+                qText.textContent = "🎉 Quiz Completed!";
+                qOptionsList.innerHTML = '';
+                qFeedback.textContent = "Quiz ko result j jasto aaye pani, timi chai mero favourite manche hau! 😂❤️";
+            }
+        }
+        loadQuiz();
+
+        // 10. Compliment Generator
+        const compliments = [
+            "Sunita, timi world ko sabai bhanda beautiful girlfriend chau! ✨",
+            "Timro smile dekhe pachi mero din automatically banihalcha. 🥺",
+            "Timi yetti pyari chau ki k vanne, words nai pugdaina! 💗",
+            "Mero life ko sabai bhanda ramro blessing timi hau. 👑",
+            "Timro voice sunna pauda mero din ko sabai fatigue vanish huncha. 🥰",
+            "Timi mero shehzaadi hau, ra ma sadhai timro king banera baschu! 🤴",
+            "Timro eyes ma kati dherai magic cha, jahile herda pani heri rakha lagcha. 👀",
+            "Timi sanga huda malai aru kasailai ni samjhinu pardaina. 💓",
+            "Timro nature ra kindness le mero mutu nai jiteko chau. 💖",
+            "Timi mero favourite notification ra sabai bhanda sweet thought hau. 📱✨",
+            "Budi, timi yetti cute chau ki timlai sadhai aafno angalo ma rakha lagcha. 🤗",
+            "Timro support bina mero life adhuro thiyo. Thank you for being my strength! 🌸",
+            "Timi hasda world ko sabai bhanda pyari dekhinchau. Keep smiling! 😊",
+            "Mero sun, mero moon, ra mero entire universe timi nai hau, Sunita. 🌌❤️",
+            "You are simply irreplaceable, my gorgeous shehzaadi! 👑💖"
+        ];
+
+        const complimentBtn = document.getElementById('compliment-btn');
+        const complimentOutput = document.getElementById('compliment-output');
+        complimentBtn.addEventListener('click', () => {
+            const randomComp = compliments[Math.floor(Math.random() * compliments.length)];
+            complimentOutput.textContent = `"${randomComp}"`;
         });
 
-        // 6. Final Surprise Modal Logic
-        const finalSurpriseBtn = document.getElementById('final-surprise-btn');
-        const surpriseModal = document.getElementById('surprise-modal');
-        const closeModalBtn = document.getElementById('close-modal-btn');
+        // 11. Secret Modal Trigger
+        const secretBtn = document.getElementById('secret-btn');
+        const secretModal = document.getElementById('secret-modal');
+        secretBtn.addEventListener('click', () => {
+            secretModal.classList.add('active');
+        });
+        function closeSecretModal() {
+            secretModal.classList.remove('active');
+        }
 
-        finalSurpriseBtn.addEventListener('click', () => {
-            surpriseModal.classList.add('active');
+        // 12. Final Hug Modal Trigger
+        const finalHugBtn = document.getElementById('final-hug-btn');
+        const hugModal = document.getElementById('hug-modal');
+        finalHugBtn.addEventListener('click', () => {
+            hugModal.classList.add('active');
+        });
+        function closeModal() {
+            hugModal.classList.remove('active');
+        }
+
+        // 13. Audio & Theme Toggles
+        const audioToggle = document.getElementById('audio-toggle');
+        let audioPlaying = false;
+        // Optional synthesized soft chime or placeholder interaction
+        audioToggle.addEventListener('click', () => {
+            audioPlaying = !audioPlaying;
+            audioToggle.textContent = audioPlaying ? '🔊' : '🎵';
+            alert(audioPlaying ? "🎵 Vibe music mode activated! Enjoy the magical atmosphere." : "🔇 Music paused.");
         });
 
-        closeModalBtn.addEventListener('click', () => {
-            surpriseModal.classList.remove('active');
-        });
-
-        surpriseModal.addEventListener('click', (e) => {
-            if (e.target === surpriseModal) {
-                surpriseModal.classList.remove('active');
+        const themeToggle = document.getElementById('theme-toggle');
+        let altTheme = false;
+        themeToggle.addEventListener('click', () => {
+            altTheme = !altTheme;
+            if(altTheme) {
+                document.documentElement.style.setProperty('--bg-deep', '#120514');
+                document.documentElement.style.setProperty('--accent-pink', '#ff5277');
+                alert("✨ Romantic rose-vibe activated!");
+            } else {
+                document.documentElement.style.setProperty('--bg-deep', '#0a0718');
+                document.documentElement.style.setProperty('--accent-pink', '#ff758c');
+                alert("✨ Midnight deep-blue vibe restored!");
             }
         });
     </script>
